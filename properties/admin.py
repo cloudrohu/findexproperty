@@ -11,7 +11,7 @@ from . models import *
 class CityAdmin(DraggableMPTTAdmin):
     mptt_indent_field = "title"
     list_display = ('id','tree_actions', 'indented_title', 'image_thumbnail',
-                    'related_locality_count',)
+                    'related_locality_count','residential_project_count',)
     list_display_links = ('indented_title',)
     prepopulated_fields = {'slug': ('title',)}
     
@@ -24,11 +24,23 @@ class CityAdmin(DraggableMPTTAdmin):
                  'city',
                  'locality_count',
                  cumulative=False)
-        return qs
+        qs = City.objects.add_related_count(qs,
+                 Residential_Project,
+                 'city',
+                 'residential_project_count',
+                 cumulative=False)
+        return qs      
+   
+    def residential_project_count(self, instance):
+        return instance.residential_project_count
+    residential_project_count.short_description = 'Related Project (for this specific Locality)'
+        
 
     def related_locality_count(self, instance):
         return instance.locality_count
     related_locality_count.short_description = 'Related Locality (for this specific City)'
+
+
 
 
 
