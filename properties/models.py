@@ -73,7 +73,7 @@ class Locality(MPTTModel):
     update_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.title + " " + self.city.title
     
     def save(self , *args , **kwargs):
         self.slug = slugify(self.title)
@@ -110,7 +110,7 @@ class Possession_In(models.Model):
  
 
 class Developer(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50,unique=True)
     contact_person = models.CharField(max_length=255)
     contact_no = models.CharField(max_length=255)
     city = models.ForeignKey(City, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand    
@@ -165,10 +165,11 @@ class Residential_Project(MPTTModel):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE) #many to one relation with Brand 
     propert_type=models.CharField(max_length=25, choices=PROPERTY_TYPE)   
     title = models.CharField(max_length=50)
-    developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
-    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand
     keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)    
+    meta_description = models.CharField(max_length=255)
+    developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
+    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
+    description = models.TextField(max_length=1000)    
     status=models.CharField(max_length=25, choices=STATUS)    
     construction_status=models.CharField(max_length=25, choices=Construction_Status)
     image=models.ImageField(blank=True,upload_to='images/')
@@ -181,7 +182,7 @@ class Residential_Project(MPTTModel):
     
     def save(self , *args , **kwargs):
         self.slug = slugify(self.title)
-        super(City ,self).save(*args , **kwargs)
+        super(Residential_Project ,self).save(*args , **kwargs)
     
     
     def image_tag(self):
