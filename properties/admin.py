@@ -83,7 +83,7 @@ class DeveloperAdmin(admin.ModelAdmin):
 class Residential_ProjectAdmin(admin.ModelAdmin):
     list_display = ['id','title','locality','city','propert_type', 'image_thumbnail']
     list_editable=['title','locality','city']
-    list_filter = ['locality','city']
+    list_filter = ['locality','city','propert_type']
     search_fields = ['title']
     list_per_page = 30 
 
@@ -91,7 +91,7 @@ class Residential_ProjectAdmin(admin.ModelAdmin):
 class Commercial_ProjectAdmin(admin.ModelAdmin):
     list_display = ['id','title','locality','city','propert_type','image_thumbnail']
     list_editable=('title','locality','city',) 
-    list_filter = ('locality','city',) 
+    list_filter = ('locality','city','propert_type') 
     search_fields = ['title']
     list_per_page = 30 
 
