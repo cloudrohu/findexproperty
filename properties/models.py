@@ -176,7 +176,8 @@ class Commercial_Project(MPTTModel):
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
     possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
     description = models.TextField(max_length=5000)    
-    status=models.CharField(max_length=25, choices=STATUS)    
+    status=models.CharField(max_length=25, choices=STATUS)
+    theme=models.CharField(max_length=25, choices=THEMES)    
     construction_status=models.CharField(max_length=25, choices=Construction_Status)
     image=models.ImageField(blank=True,upload_to='images/')
     slug = models.SlugField(unique=True , null=True , blank=True)
