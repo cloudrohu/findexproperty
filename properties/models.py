@@ -118,14 +118,14 @@ THEMES = (
 
 class Developer(models.Model):
     title = models.CharField(max_length=50,unique=True)
-    contact_person = models.CharField(max_length=255)
-    contact_no = models.CharField(max_length=255)
+    contact_person = models.CharField(max_length=255,null=True , blank=True)
+    contact_no = models.CharField(max_length=255,null=True , blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand    
     email = models.EmailField(null=True,blank=True)
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand    
-    address = models.CharField(max_length=500)
-    keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=5000)
+    address = models.CharField(max_length=500,null=True , blank=True)
+    keywords = models.CharField(max_length=255,null=True , blank=True)
+    description = models.TextField(max_length=5000,null=True , blank=True)
     image=models.ImageField(blank=True,upload_to='images/')
     slug = models.SlugField(unique=True , null=True , blank=True)
     create_at=models.DateTimeField(auto_now_add=True)
