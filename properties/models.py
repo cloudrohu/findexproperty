@@ -20,7 +20,7 @@ class City(MPTTModel):
     parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    description = models.TextField(max_length=5000)
     image=models.ImageField(blank=True,upload_to='images/')
     status=models.CharField(max_length=10, choices=STATUS)
     slug = models.SlugField(unique=True , null=True , blank=True)
@@ -64,8 +64,8 @@ class Locality(MPTTModel):
     city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
 
     title = models.CharField(max_length=50)
-    keywords = models.CharField()
-    description = models.TextField()
+    keywords = models.CharField(max_length=1000)
+    description = models.TextField(max_length=5000)
     image=models.ImageField(blank=True,upload_to='images/')
     status=models.CharField(max_length=10, choices=STATUS)
     slug = models.SlugField(unique=True , null=True , blank=True)
@@ -125,7 +125,7 @@ class Developer(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand    
     address = models.CharField(max_length=500)
     keywords = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(max_length=5000)
     image=models.ImageField(blank=True,upload_to='images/')
     slug = models.SlugField(unique=True , null=True , blank=True)
     create_at=models.DateTimeField(auto_now_add=True)
@@ -176,7 +176,7 @@ class Commercial_Project(MPTTModel):
     meta_description = models.CharField(max_length=255)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
     possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
-    description = models.TextField()    
+    description = models.TextField(max_length=5000)    
     status=models.CharField(max_length=25, choices=STATUS)    
     construction_status=models.CharField(max_length=25, choices=Construction_Status)
     image=models.ImageField(blank=True,upload_to='images/')
@@ -245,7 +245,7 @@ class Residential_Project(MPTTModel):
     meta_description = models.CharField(max_length=255)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
     possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
-    description = models.TextField()    
+    description = models.TextField(max_length=5000)    
     status=models.CharField(max_length=25, choices=STATUS)    
     theme=models.CharField(max_length=25, choices=THEMES)    
     construction_status=models.CharField(max_length=25, choices=Construction_Status)
@@ -286,7 +286,7 @@ class Plat(MPTTModel):
 
     PROPERTY_TYPE = (
         ('Residential Plot', 'Residential Plot'),
-        ('Commercial land','Commercial land')
+        ('Commercial land','Commercial land'),
         ('Agricultural Land','Agricultural Land')
         
         
@@ -313,7 +313,7 @@ class Plat(MPTTModel):
     meta_description = models.CharField(max_length=255)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
     possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
-    description = models.TextField(max_length=1000)    
+    description = models.TextField(max_length=5000)    
     status=models.CharField(max_length=25, choices=STATUS)    
     construction_status=models.CharField(max_length=25, choices=Construction_Status)
     image=models.ImageField(blank=True,upload_to='images/')
