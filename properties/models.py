@@ -64,8 +64,8 @@ class Locality(MPTTModel):
     city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
 
     title = models.CharField(max_length=50)
-    keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    keywords = models.CharField()
+    description = models.TextField()
     image=models.ImageField(blank=True,upload_to='images/')
     status=models.CharField(max_length=10, choices=STATUS)
     slug = models.SlugField(unique=True , null=True , blank=True)
@@ -107,7 +107,14 @@ class Possession_In(models.Model):
     def __str__(self):
         return self.title    
 
- 
+THEMES = (
+        ('Theme1', 'Theme1'),
+        ('Theme2', 'Theme2'),
+        ('Theme3', 'Theme3'),
+        ('Theme4', 'Theme4'),
+        ('Theme5', 'Theme5'),
+        
+    )
 
 class Developer(models.Model):
     title = models.CharField(max_length=50,unique=True)
@@ -118,7 +125,7 @@ class Developer(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand    
     address = models.CharField(max_length=500)
     keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    description = models.TextField()
     image=models.ImageField(blank=True,upload_to='images/')
     slug = models.SlugField(unique=True , null=True , blank=True)
     create_at=models.DateTimeField(auto_now_add=True)
@@ -137,7 +144,7 @@ class Developer(models.Model):
     def image_tag(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
 
-class Residential_Project(MPTTModel):
+class Commercial_Project(MPTTModel):
     PROPERTY_TYPE = (
         ('Residential Land', 'Residential Land'),
         ('Residential Apartment', 'Residential Apartment'),
@@ -164,6 +171,143 @@ class Residential_Project(MPTTModel):
     city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE) #many to one relation with Brand 
     propert_type=models.CharField(max_length=25, choices=PROPERTY_TYPE)   
+    title = models.CharField(max_length=50)
+    keywords = models.CharField(max_length=255)
+    meta_description = models.CharField(max_length=255)
+    developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
+    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
+    description = models.TextField()    
+    status=models.CharField(max_length=25, choices=STATUS)    
+    construction_status=models.CharField(max_length=25, choices=Construction_Status)
+    image=models.ImageField(blank=True,upload_to='images/')
+    slug = models.SlugField(unique=True , null=True , blank=True)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+    
+    def save(self , *args , **kwargs):
+        self.slug = slugify(self.title)
+        super(Residential_Project ,self).save(*args , **kwargs)
+    
+    
+    def image_tag(self):
+        if self.image.url is not None:
+            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        else:
+            return ""
+
+    class MPTTMeta:
+        order_insertion_by = ['title']
+
+    def get_absolute_url(self):
+        return reverse('city_detail', kwargs={'slug': self.slug})
+
+    def __str__(self):                           # __str__ method elaborated later in
+        full_path = [self.title]                  # post.  use __unicode__ in place of
+        k = self.parent
+        while k is not None:
+            full_path.append(k.title)
+            k = k.parent
+        return ' / '.join(full_path[::-1])
+
+
+class Residential_Project(MPTTModel):
+    PROPERTY_TYPE = (
+        ('Office Space', 'Office Space'),
+        ('Shop/Showroom', 'Shop/Showroom'),
+        ('Commercial Land', 'Commercial Land'),
+        ('Warehouse/Godown', 'Warehouse/Godown'),
+        ('Industrial Building', 'Industrial Building'),
+        ('Industrial Shed', 'Industrial Shed'),
+        
+     )
+
+    STATUS = (
+        ('True', 'True'),
+        ('False', 'False'),
+    )
+
+    Construction_Status = (
+        ('Under Construction', 'Under Construction'),
+        ('New Launch', 'New Launch'),
+        ('Partially Ready To Move','Partially Ready To Move'),
+        ('Ready To Move','Ready To Move'),  )
+
+    
+    parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
+    locality = models.ForeignKey(Locality, on_delete=models.CASCADE) #many to one relation with Brand 
+    propert_type=models.CharField(max_length=25, choices=PROPERTY_TYPE)   
+    title = models.CharField(max_length=50)
+    keywords = models.CharField(max_length=255)
+    meta_description = models.CharField(max_length=255)
+    developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
+    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
+    description = models.TextField()    
+    status=models.CharField(max_length=25, choices=STATUS)    
+    theme=models.CharField(max_length=25, choices=THEMES)    
+    construction_status=models.CharField(max_length=25, choices=Construction_Status)
+    image=models.ImageField(blank=True,upload_to='images/')
+    slug = models.SlugField(unique=True , null=True , blank=True)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+    
+    def save(self , *args , **kwargs):
+        self.slug = slugify(self.title)
+        super(Residential_Project ,self).save(*args , **kwargs)
+    
+    
+    def image_tag(self):
+        if self.image.url is not None:
+            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        else:
+            return ""
+
+    class MPTTMeta:
+        order_insertion_by = ['title']
+
+    def get_absolute_url(self):
+        return reverse('city_detail', kwargs={'slug': self.slug})
+
+    def __str__(self):                           # __str__ method elaborated later in
+        full_path = [self.title]                  # post.  use __unicode__ in place of
+        k = self.parent
+        while k is not None:
+            full_path.append(k.title)
+            k = k.parent
+        return ' / '.join(full_path[::-1])
+
+class Plat(MPTTModel):
+
+    PROPERTY_TYPE = (
+        ('Residential Plot', 'Residential Plot'),
+        ('Commercial land','Commercial land')
+        ('Agricultural Land','Agricultural Land')
+        
+        
+     )
+
+    STATUS = (
+        ('True', 'True'),
+        ('False', 'False'),
+    )
+
+    Construction_Status = (
+        ('Under Construction', 'Under Construction'),
+        ('New Launch', 'New Launch'),
+        ('Partially Ready To Move','Partially Ready To Move'),
+        ('Ready To Move','Ready To Move'),  )
+
+    
+    parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
+    locality = models.ForeignKey(Locality, on_delete=models.CASCADE) #many to one relation with Brand 
+    propert_type=models.CharField(max_length=25, choices=PROPERTY_TYPE)
     title = models.CharField(max_length=50)
     keywords = models.CharField(max_length=255)
     meta_description = models.CharField(max_length=255)
@@ -204,3 +348,13 @@ class Residential_Project(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
+
+class Images(models.Model):
+    Residential_Project=models.ForeignKey(Residential_Project,on_delete=models.CASCADE)
+    Commercial_Project=models.ForeignKey(Commercial_Project,on_delete=models.CASCADE)
+    Plat=models.ForeignKey(Plat,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
+
+    def __str__(self):
+        return self.title
