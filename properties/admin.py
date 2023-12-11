@@ -69,21 +69,24 @@ class LocalityAdmin(DraggableMPTTAdmin):
 @admin_thumbnails.thumbnail('image')
 class DeveloperAdmin(admin.ModelAdmin):
     list_display = ['id','title', 'contact_person','contact_no','email','address','locality','city','image_thumbnail']
-
+    list_display = ['id','title','locality','city','propert_type', 'image_thumbnail']
+    list_editable=('title','locality','city',) 
+    list_filter = ('locality','city',) 
+    search_fields = ('title')
 
 @admin_thumbnails.thumbnail('image')
 class Residential_ProjectAdmin(admin.ModelAdmin):
     list_display = ['id','title','locality','city','propert_type', 'image_thumbnail']
     list_editable=('title','locality','city',) 
     list_filter = ('locality','city',) 
-    search_fields = ('title','locality','city',)
+    search_fields = ('title')
 
 @admin_thumbnails.thumbnail('image')
 class Commercial_ProjectAdmin(admin.ModelAdmin):
     list_display = ['id','title','locality','city','propert_type','image_thumbnail']
     list_editable=('title','locality','city',) 
     list_filter = ('locality','city',) 
-    search_fields = ('title','locality','city',)
+    search_fields = ('title')
 
 
 
