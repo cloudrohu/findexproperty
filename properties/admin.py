@@ -13,6 +13,7 @@ class CityAdmin(DraggableMPTTAdmin):
     list_display = ('id','tree_actions', 'indented_title', 'image_thumbnail',
                     'related_locality_count','residential_project_count',)
     list_display_links = ('indented_title',)
+    list_per_page = 30 
     prepopulated_fields = {'slug': ('title',)}
     
     def get_queryset(self, request):
@@ -46,6 +47,8 @@ class LocalityAdmin(DraggableMPTTAdmin):
     list_display = ('id','tree_actions','city', 'indented_title', 'image_thumbnail',
                     'residential_project_count',)
     list_display_links = ('indented_title',)
+    list_per_page = 30 
+
     prepopulated_fields = {'slug': ('title',)}
     
     list_filter = ['city']
@@ -73,6 +76,8 @@ class DeveloperAdmin(admin.ModelAdmin):
     list_editable=('title','locality','city',) 
     list_filter = ('locality','city',) 
     search_fields = ['title']
+    list_per_page = 30 
+
 
 @admin_thumbnails.thumbnail('image')
 class Residential_ProjectAdmin(admin.ModelAdmin):
@@ -80,6 +85,7 @@ class Residential_ProjectAdmin(admin.ModelAdmin):
     list_editable=['title','locality','city']
     list_filter = ['locality','city']
     search_fields = ['title']
+    list_per_page = 30 
 
 @admin_thumbnails.thumbnail('image')
 class Commercial_ProjectAdmin(admin.ModelAdmin):
@@ -87,6 +93,7 @@ class Commercial_ProjectAdmin(admin.ModelAdmin):
     list_editable=('title','locality','city',) 
     list_filter = ('locality','city',) 
     search_fields = ['title']
+    list_per_page = 30 
 
 
 
