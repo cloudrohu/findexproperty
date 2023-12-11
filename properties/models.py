@@ -146,13 +146,13 @@ class Developer(models.Model):
 
 class Commercial_Project(MPTTModel):
     PROPERTY_TYPE = (
-        ('Residential Land', 'Residential Land'),
-        ('Residential Apartment', 'Residential Apartment'),
-        ('Independent House/Villa', 'Independent House/Villa'),
-        ('Studio Apartment', 'Studio Apartment'),
-        ('Independent/Builder Floor', 'Independent/Builder Floor'),
-        ('Serviced Apartments', 'Serviced Apartments'),
-        ('Farm House', 'Farm House'),
+        ('Office Space', 'Office Space'),
+        ('Shop/Showroom', 'Shop/Showroom'),
+        ('Commercial Land', 'Commercial Land'),
+        ('Warehouse/Godown', 'Warehouse/Godown'),
+        ('Industrial Building', 'Industrial Building'),
+        ('Industrial Shed', 'Industrial Shed'),
+        
      )
 
     STATUS = (
@@ -213,15 +213,16 @@ class Commercial_Project(MPTTModel):
         return ' / '.join(full_path[::-1])
 
 
-class Residential_Project(MPTTModel):
+class Residential_Project(MPTTModel):    
+    
     PROPERTY_TYPE = (
-        ('Office Space', 'Office Space'),
-        ('Shop/Showroom', 'Shop/Showroom'),
-        ('Commercial Land', 'Commercial Land'),
-        ('Warehouse/Godown', 'Warehouse/Godown'),
-        ('Industrial Building', 'Industrial Building'),
-        ('Industrial Shed', 'Industrial Shed'),
-        
+        ('Residential Land', 'Residential Land'),
+        ('Residential Apartment', 'Residential Apartment'),
+        ('Independent House/Villa', 'Independent House/Villa'),
+        ('Studio Apartment', 'Studio Apartment'),
+        ('Independent/Builder Floor', 'Independent/Builder Floor'),
+        ('Serviced Apartments', 'Serviced Apartments'),
+        ('Farm House', 'Farm House'),
      )
 
     STATUS = (
