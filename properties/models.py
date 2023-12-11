@@ -102,8 +102,6 @@ class Locality(MPTTModel):
 
 class Possession_In(models.Model):
     title = models.CharField(max_length=50)
-    
-
     def __str__(self):
         return self.title    
 
@@ -145,6 +143,7 @@ class Developer(models.Model):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
 
 class Commercial_Project(MPTTModel):
+
     PROPERTY_TYPE = (
         ('Office Space', 'Office Space'),
         ('Shop/Showroom', 'Shop/Showroom'),
@@ -234,8 +233,8 @@ class Residential_Project(MPTTModel):
         ('Under Construction', 'Under Construction'),
         ('New Launch', 'New Launch'),
         ('Partially Ready To Move','Partially Ready To Move'),
-        ('Ready To Move','Ready To Move'),  )
-
+        ('Ready To Move','Ready To Move'),
+        )
     
     parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE) #many to one relation with Brand
