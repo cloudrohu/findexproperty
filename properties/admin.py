@@ -5,6 +5,23 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 from . models import *
 
+@admin_thumbnails.thumbnail('image')
+class Rproject_ImagesInline(admin.TabularInline):
+    list_display = ['id']
+    model = Rproject_Images
+   
+    extra = 1
+
+class Rproject_PriceInline(admin.TabularInline):
+    model = Rproject_Price
+    
+    extra = 1
+    show_change_link = True
+
+class RfacilitiesInline(admin.TabularInline):
+    model = Rfacilities    
+    extra = 1
+    show_change_link = True
 
 
 @admin_thumbnails.thumbnail('image')
@@ -85,6 +102,7 @@ class Residential_ProjectAdmin(admin.ModelAdmin):
     list_editable=['title','locality','city','propert_type', 'developer', 'possession','theme',]
     list_filter = ['locality','city','propert_type', 'developer', 'possession','theme',]
     search_fields = ['title']
+    inlines = [Rproject_ImagesInline,Rproject_PriceInline,RfacilitiesInline]
     list_per_page = 30 
 
 @admin_thumbnails.thumbnail('image')
@@ -104,3 +122,12 @@ admin.site.register(Developer,DeveloperAdmin)
 admin.site.register(Residential_Project,Residential_ProjectAdmin)
 admin.site.register(Commercial_Project,Commercial_ProjectAdmin)
 admin.site.register(Possession_In,)
+
+admin.site.register(Rproject_Images,)
+admin.site.register(Rproject_Price,)
+admin.site.register(Rfacilities,)
+
+admin.site.register(Cfacilities,)
+
+admin.site.register(Cproject_Images,)
+admin.site.register(Cproject_Price,)

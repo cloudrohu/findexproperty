@@ -11,6 +11,22 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 from django.utils.text import slugify
 
+from utility.models import Bank,Amenities,Bedroom,Bathroom,Bolconis,Other_Room,Furnishing,Parking,Floor,Willing_To_Rent_Out,Age_Of_Properties
+
+
+class Possession_In(models.Model):
+    title = models.CharField(max_length=50)
+    def __str__(self):
+        return self.title    
+
+THEMES = (
+        ('Theme1', 'Theme1'),
+        ('Theme2', 'Theme2'),
+        ('Theme3', 'Theme3'),
+        ('Theme4', 'Theme4'),
+        ('Theme5', 'Theme5'),
+        
+    )
 
 class City(MPTTModel):
     STATUS = (
@@ -54,7 +70,6 @@ class City(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
-
 class Locality(MPTTModel):
     STATUS = (
         ('True', 'True'),
@@ -99,20 +114,6 @@ class Locality(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
-
-class Possession_In(models.Model):
-    title = models.CharField(max_length=50)
-    def __str__(self):
-        return self.title    
-
-THEMES = (
-        ('Theme1', 'Theme1'),
-        ('Theme2', 'Theme2'),
-        ('Theme3', 'Theme3'),
-        ('Theme4', 'Theme4'),
-        ('Theme5', 'Theme5'),
-        
-    )
 
 class Developer(models.Model):
     title = models.CharField(max_length=50,unique=True)
@@ -175,6 +176,10 @@ class Commercial_Project(MPTTModel):
     meta_description = models.CharField(max_length=255)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
     possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
+    min_price = models.IntegerField(default=0,null=True,blank=True,)
+    max_price = models.IntegerField(default=0,null=True,blank=True,)
+    min_area = models.CharField(null=True,blank=True,max_length=50)
+    max_area = models.CharField(null=True,blank=True,max_length=50)
     description = models.TextField(max_length=5000)    
     status=models.CharField(max_length=25, choices=STATUS)
     theme=models.CharField(max_length=25, choices=THEMES)    
@@ -211,8 +216,6 @@ class Commercial_Project(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
-
-
 class Residential_Project(MPTTModel):    
     
     PROPERTY_TYPE = (
@@ -245,7 +248,11 @@ class Residential_Project(MPTTModel):
     keywords = models.CharField(max_length=255)
     meta_description = models.CharField(max_length=255)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE) #many to one relation with Brand
-    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand    
+    possession = models.ForeignKey(Possession_In, on_delete=models.CASCADE) #many to one relation with Brand  
+    min_price = models.IntegerField(default=0,null=True,blank=True,)
+    max_price = models.IntegerField(default=0,null=True,blank=True,)
+    min_area = models.CharField(null=True,blank=True,max_length=50)
+    max_area = models.CharField(null=True,blank=True,max_length=50)  
     description = models.TextField(max_length=5000)    
     status=models.CharField(max_length=25, choices=STATUS)    
     theme=models.CharField(max_length=25, choices=THEMES)    
@@ -350,12 +357,49 @@ class Plat(MPTTModel):
             k = k.parent
         return ' / '.join(full_path[::-1])
 
-class Images(models.Model):
+class Rproject_Images(models.Model):
     Residential_Project=models.ForeignKey(Residential_Project,on_delete=models.CASCADE)
-    Commercial_Project=models.ForeignKey(Commercial_Project,on_delete=models.CASCADE)
-    Plat=models.ForeignKey(Plat,on_delete=models.CASCADE)
     title = models.CharField(max_length=50,blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
+    def __str__(self):
+        return self.title
+class Cproject_Images(models.Model):
+    Commercial_Project=models.ForeignKey(Commercial_Project,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,blank=True)
+    carpet_area = models.CharField(max_length=50,blank=True)
+    floor_plan = models.ImageField(blank=True, upload_to='images/')
+
+    def __str__(self):
+        return self.title 
+
+class Rproject_Price(models.Model):
+    Residential_Project=models.ForeignKey(Residential_Project,on_delete=models.CASCADE)
+    price = models.CharField(max_length=50,blank=True)
+    carpet_area = models.CharField(max_length=50,blank=True)
+    floor_plan = models.ImageField(blank=True, upload_to='images/')
+
+    def __str__(self):
+        return self.price    
+class Cproject_Price(models.Model):
+    Residential_Project=models.ForeignKey(Residential_Project,on_delete=models.CASCADE)
+    price = models.CharField(max_length=50,blank=True)
+    carpet_area = models.CharField(max_length=50,blank=True)
+    floor_plan = models.ImageField(blank=True, upload_to='images/')
+
+    def __str__(self):
+        return self.price    
+    
+
+class Cfacilities(models.Model):
+    Commercial_Project=models.ForeignKey(Commercial_Project,on_delete=models.CASCADE)
+    amenities=models.ForeignKey(Amenities,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,blank=True)
+    def __str__(self):
+        return self.title
+class Rfacilities(models.Model):
+    Residential_Project=models.ForeignKey(Residential_Project,on_delete=models.CASCADE)
+    amenities=models.ForeignKey(Amenities,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,blank=True)
     def __str__(self):
         return self.title
