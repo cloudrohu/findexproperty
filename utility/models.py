@@ -20,7 +20,7 @@ class Bank(models.Model):
 
 class Amenities(models.Model):
     title = models.CharField(max_length=150,blank=True)
-    icon = models.CharField(max_length=150,blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
     
     def __str__(self):
         return self.title

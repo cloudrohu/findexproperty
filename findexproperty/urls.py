@@ -11,6 +11,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 urlpatterns = [
+    path('', include('home.urls')),
+
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
     

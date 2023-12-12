@@ -19,14 +19,7 @@ class Possession_In(models.Model):
     def __str__(self):
         return self.title    
 
-THEMES = (
-        ('Theme1', 'Theme1'),
-        ('Theme2', 'Theme2'),
-        ('Theme3', 'Theme3'),
-        ('Theme4', 'Theme4'),
-        ('Theme5', 'Theme5'),
-        
-    )
+
 
 class City(MPTTModel):
     STATUS = (
@@ -154,6 +147,15 @@ class Commercial_Project(MPTTModel):
         ('Industrial Shed', 'Industrial Shed'),
         
      )
+    
+    THEMES = (
+        ('slider', 'slider'),
+        ('Featured ', 'Featured'),
+        ('Theme3', 'Theme3'),
+        ('Theme4', 'Theme4'),
+        ('Theme5', 'Theme5'),
+        
+    )
 
     STATUS = (
         ('True', 'True'),
@@ -227,6 +229,15 @@ class Residential_Project(MPTTModel):
         ('Serviced Apartments', 'Serviced Apartments'),
         ('Farm House', 'Farm House'),
      )
+
+    THEMES = (
+        ('slider', 'slider'),
+        ('Featured ', 'Featured'),
+        ('Theme3', 'Theme3'),
+        ('Theme4', 'Theme4'),
+        ('Theme5', 'Theme5'),
+        
+    )
 
     STATUS = (
         ('True', 'True'),
