@@ -13,13 +13,10 @@ from django.utils.text import slugify
 
 from utility.models import Bank,Amenities,Bedroom,Bathroom,Bolconis,Other_Room,Furnishing,Parking,Floor,Willing_To_Rent_Out,Age_Of_Properties
 
-
 class Possession_In(models.Model):
     title = models.CharField(max_length=50)
     def __str__(self):
         return self.title    
-
-
 
 class City(MPTTModel):
     STATUS = (
@@ -196,7 +193,7 @@ class Commercial_Project(MPTTModel):
     
     def save(self , *args , **kwargs):
         self.slug = slugify(self.title)
-        super(Residential_Project ,self).save(*args , **kwargs)
+        super(Commercial_Project ,self).save(*args , **kwargs)
     
     
     def image_tag(self):
@@ -218,6 +215,7 @@ class Commercial_Project(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
+
 class Residential_Project(MPTTModel):    
     
     PROPERTY_TYPE = (
@@ -345,7 +343,7 @@ class Plat(MPTTModel):
     
     def save(self , *args , **kwargs):
         self.slug = slugify(self.title)
-        super(Residential_Project ,self).save(*args , **kwargs)
+        super(Plat ,self).save(*args , **kwargs)
     
     
     def image_tag(self):
@@ -400,7 +398,6 @@ class Cproject_Price(models.Model):
 
     def __str__(self):
         return self.price    
-    
 
 class Cfacilities(models.Model):
     Commercial_Project=models.ForeignKey(Commercial_Project,on_delete=models.CASCADE)

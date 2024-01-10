@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'jet.dashboard',
     'jet',
     
+    'packages.apps.PackagesConfig',
     'user.apps.UserConfig',
     'home.apps.HomeConfig',
     'properties.apps.PropertiesConfig',
