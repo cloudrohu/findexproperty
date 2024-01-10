@@ -31,6 +31,7 @@ class CityAdmin(DraggableMPTTAdmin):
                     'related_locality_count','residential_project_count',)
     list_display_links = ('indented_title',)
     list_per_page = 30 
+    search_fields = ['title']
     prepopulated_fields = {'slug': ('title',)}
     
     def get_queryset(self, request):
@@ -67,7 +68,7 @@ class LocalityAdmin(DraggableMPTTAdmin):
     list_per_page = 30 
 
     prepopulated_fields = {'slug': ('title',)}
-    
+    search_fields = ['title']
     list_filter = ['city']
     
     
