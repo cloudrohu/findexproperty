@@ -196,12 +196,7 @@ class Commercial_Project(MPTTModel):
         super(Commercial_Project ,self).save(*args , **kwargs)
     
     
-    def image_tag(self):
-        if self.image.url is not None:
-            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
-        else:
-            return ""
-
+    
     class MPTTMeta:
         order_insertion_by = ['title']
 
